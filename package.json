@@ -1,7 +1,7 @@
 {
-  "name": "booking-web",
+  "name": "Traka",
   "version": "1.0.0",
-  "description": "Website template for Payload",
+  "description": "Better than jire",
   "license": "MIT",
   "type": "module",
   "scripts": {
