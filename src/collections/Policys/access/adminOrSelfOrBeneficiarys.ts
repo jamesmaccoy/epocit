@@ -1,8 +1,8 @@
 import { User } from '@/payload-types'
 import { Access } from 'payload'
 
-export const adminOrSelfOrGuests =
-  (userField: string, guestsField: string): Access<User> =>
+export const adminOrSelfOrBeneficiarys =
+  (userField: string, beneficiarysField: string): Access<User> =>
   ({ req: { user } }) => {
     if (!user) return false
 
@@ -18,7 +18,7 @@ export const adminOrSelfOrGuests =
           },
         },
         {
-          [guestsField]: {
+          [beneficiarysField]: {
             contains: user?.id,
           },
         },

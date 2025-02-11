@@ -1,6 +1,6 @@
 import { Access, Where } from 'payload'
 
-export const adminSelfOrGuest: Access = ({ req: { user } }) => {
+export const adminSelfOrBeneficiary: Access = ({ req: { user } }) => {
   if (!user) return false
 
   if (user?.role?.includes('admin')) {

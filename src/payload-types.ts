@@ -87,7 +87,7 @@ export interface Policy {
   id: string;
   title: string;
   customer?: (string | null) | User;
-  guests?: (string | User)[] | null;
+  beneficiarys?: (string | User)[] | null;
   slug?: string | null;
   slugLock?: boolean | null;
   post: string | Post;
@@ -104,7 +104,7 @@ export interface Policy {
 export interface User {
   id: string;
   name?: string | null;
-  role?: ('admin' | 'customer' | 'guest')[] | null;
+  role?: ('admin' | 'lifeassured' | 'beneficiary')[] | null;
   addedBy?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -867,7 +867,7 @@ export interface PayloadMigration {
 export interface PolicysSelect<T extends boolean = true> {
   title?: T;
   customer?: T;
-  guests?: T;
+  beneficiarys?: T;
   slug?: T;
   slugLock?: T;
   post?: T;

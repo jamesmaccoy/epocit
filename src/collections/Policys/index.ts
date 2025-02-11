@@ -4,7 +4,7 @@ import { isAdmin } from '@/access/isAdmin'
 import { isAdminField } from '@/access/isAdminField'
 import { slugField } from '@/fields/slug'
 import { CollectionConfig } from 'payload'
-import { adminOrSelfOrGuests } from './access/adminOrSelfOrGuests'
+import { adminOrSelfOrBeneficiarys } from './access/adminOrSelfOrBeneficiarys'
 
 export const Policy: CollectionConfig = {
   slug: 'policys',
@@ -20,7 +20,7 @@ export const Policy: CollectionConfig = {
     defaultColumns: ['title', 'fromDate', 'toDate', 'slug', 'customer'],
   },
   access: {
-    read: adminOrSelfOrGuests('customer', 'guests'),
+    read: adminOrSelfOrBeneficiarys('customer', 'beneficiarys'),
     create: isAdmin,
     delete: isAdmin,
   },
@@ -48,7 +48,7 @@ export const Policy: CollectionConfig = {
       },
     },
     {
-      name: 'guests',
+      name: 'beneficiarys',
       type: 'relationship',
       hasMany: true,
       relationTo: 'users',

@@ -4,62 +4,62 @@ import React from 'react'
 import { Post, User } from '@/payload-types'
 import { getMeUser } from '@/utilities/getMeUser'
 import PageClient from './page.client'
-import BookingCard from '../../../components/Bookings/BookingCard'
+import PolicyCard from '@/components/Policys/PolicyCard'
 import { redirect } from 'next/navigation'
 
-export default async function Bookings() {
+export default async function Policys() {
   const currentUser = await getMeUser()
 
   if (!currentUser) {
     redirect('/login')
   }
 
-  const [upcomingBookings, pastBookings] = await Promise.all([
-    getBookings('upcoming', currentUser.user),
-    getBookings('past', currentUser.user),
+  const [upcomingPolicys, pastPolicys] = await Promise.all([
+    getPolicys('upcoming', currentUser.user),
+    getPolicys('past', currentUser.user),
   ])
 
-  const formattedUpcomingBookings = upcomingBookings.docs.map((booking) => ({
-    ...(booking.post as Pick<Post, 'meta' | 'slug' | 'title'>),
-    fromDate: booking.fromDate,
-    toDate: booking.toDate,
-    guests: booking.guests,
-    id: booking.id,
+  const formattedUpcomingPolicys = upcomingPolicys.docs.map((policy) => ({
+    ...(policy.post as Pick<Post, 'meta' | 'slug' | 'title'>),
+    fromDate: policy.fromDate,
+    toDate: policy.toDate,
+    guests: policy.guests,
+    id: policy.id,
   }))
 
-  const formattedPastBookings = pastBookings.docs.map((booking) => ({
-    ...(booking.post as Pick<Post, 'meta' | 'slug' | 'title'>),
-    fromDate: booking.fromDate,
-    toDate: booking.toDate,
-    guests: booking.guests,
-    id: booking.id,
+  const formattedPastPolicys = pastPolicys.docs.map((policy) => ({
+    ...(policy.post as Pick<Post, 'meta' | 'slug' | 'title'>),
+    fromDate: policy.fromDate,
+    toDate: policy.toDate,
+    guests: policy.guests,
+    id: policy.id,
   }))
 
-  console.log(upcomingBookings, pastBookings)
+  console.log(upcomingPolicys, pastPolicys)
 
   return (
     <>
       <PageClient />
       <div className="my-10 container space-y-10">
         <div>
-          {upcomingBookings.docs.length > 0 && (
+          {upcomingPolicys.docs.length > 0 && (
             <h2 className="text-4xl font-medium tracking-tighter my-6">Upcoming stays</h2>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-            {formattedUpcomingBookings.map((booking) => (
-              <BookingCard key={booking.id} booking={booking} />
+            {formattedUpcomingPolicys.map((policy) => (
+              <PolicyCard key={policy.id} policy={policy} />
             ))}
           </div>
         </div>
 
-        {pastBookings.docs.length > 0 && (
+        {pastPolicys.docs.length > 0 && (
           <h2 className="text-4xl font-medium tracking-tighter my-6">Past stays</h2>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-          {formattedPastBookings.map((booking) => (
-            <BookingCard key={booking.id} booking={booking} />
+          {formattedPastPolicys.map((policy) => (
+            <PolicyCard key={policy.id} policy={policy} />
           ))}
         </div>
       </div>
@@ -67,7 +67,7 @@ export default async function Bookings() {
   )
 }
 
-const getBookings = async (type: 'upcoming' | 'past', currentUser: User) => {
+const getPolicys = async (type: 'upcoming' | 'past', currentUser: User) => {
   const payload = await getPayload({ config })
 
   let whereQuery: Where
@@ -104,8 +104,8 @@ const getBookings = async (type: 'upcoming' | 'past', currentUser: User) => {
     }
   }
 
-  const bookings = await payload.find({
-    collection: 'bookings',
+  const policys = await payload.find({
+    collection: 'policys',
     limit: 100,
     where: whereQuery,
     depth: 2,
@@ -119,5 +119,5 @@ const getBookings = async (type: 'upcoming' | 'past', currentUser: User) => {
     },
   })
 
-  return bookings
+  return policys
 }
